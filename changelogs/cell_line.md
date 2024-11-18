@@ -4,6 +4,7 @@
 
 * Allow `modifications` to contain a maximum of 2 items.
 * Update `dbxrefs` regex to allow ENCODE sample accessions.
+* Remove property `abc` to test the Slack bot.
 
 ### Schema version 9
 
