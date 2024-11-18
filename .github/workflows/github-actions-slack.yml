@@ -33,8 +33,11 @@ jobs:
             channel: ${{secrets.TEST_CHANNEL_ID}}
             initial_comment: ${{env.slack_message}}
             file: diff.txt
+            filename: diff.txt
       - name: Debug Output
         run: |
           echo "Latest tag: ${{ env.tag_new }}"
           echo "Slack message: ${{ env.slack_message }}"
+          ls -lah
+          cat diff.txt
           
