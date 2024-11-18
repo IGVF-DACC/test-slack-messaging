@@ -23,16 +23,16 @@ jobs:
           git diff ${{env.tag_old}} ${{env.tag_new}} changelogs/* > diff.txt
       - name: Prepare the Slack message
         run: |
-          DIFF_CONTENT=$(head -n 100 diff.txt | sed 's/"/\\"/g')
-          echo "slack_message=Latest tag ${{env.tag_new}}\n\n$DIFF_CONTENT"  >> $GITHUB_ENV
+          echo "slack_message=Latest tag ${{env.tag_new}}. Attached is the diff between ${{env.tag_old}} and ${{env.tag_new}}."  >> $GITHUB_ENV
       - name: Post a message to Slack
         uses: slackapi/slack-github-action@v2.0.0
         with:
-          method: chat.postMessage
+          method: files.uploadV2
           token: ${{secrets.SUBMITTER_HELPDESK_SLACK_BOT_TOKEN}}
           payload: |
             channel: ${{secrets.TEST_CHANNEL_ID}}
-            text: ${{env.slack_message}}
+            initial_comment: ${{env.slack_message}}
+            file: diff.txt
       - name: Debug Output
         run: |
           echo "Latest tag: ${{ env.tag_new }}"
