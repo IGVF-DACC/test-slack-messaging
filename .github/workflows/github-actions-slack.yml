@@ -20,7 +20,7 @@ jobs:
           echo "tag_new=$TAG_NEW" >> $GITHUB_ENV
       - name: Generate git diff
         run: |
-          git diff ${{env.tag_old}} ${{env.tag_new}} changelogs/* > diff.txt
+          git diff ${{env.tag_old}} ${{env.tag_new}} changelogs/* | grep -v ^--- | grep -E "^[\+|#| #|-]"> diff.txt
       - name: Prepare the Slack message
         run: |
           echo "slack_message=Latest tag ${{env.tag_new}}. Attached is the diff between ${{env.tag_old}} and ${{env.tag_new}}."  >> $GITHUB_ENV
@@ -32,8 +32,6 @@ jobs:
           payload: |
             channel: ${{secrets.TEST_CHANNEL_ID}}
             text: ${{env.slack_message}}
-            #file: diff.txt
-            #filename: diff.txt
       - name: Debug Output
         run: |
           echo "Latest tag: ${{ env.tag_new }}"
