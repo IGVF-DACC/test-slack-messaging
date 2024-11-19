@@ -23,20 +23,17 @@ jobs:
           git diff ${{env.tag_old}} ${{env.tag_new}} changelogs/* | grep -v ^--- | grep -E "^[\+|#| #|-]"> diff.txt
       - name: Prepare the Slack message
         run: |
-          DIFF_CONTENT=$(cat diff.txt | head -n 100 | sed 's/$/\\n/' | tr -d '\n')
-          echo "slack_message=Changes from ${{ env.tag_old }} to ${{ env.tag_new }}:\\n\`\`\`$DIFF_CONTENT\`\`\`" >> $GITHUB_ENV
+          python generate_payload.py --diff-file diff.txt --output-file slack_payload.json --tag-old ${{env.tag_old}} --tag-new ${{env.tag_new}} --channel-id ${{secrets.TEST_CHANNEL_ID}}
       - name: Post a message to Slack
         uses: slackapi/slack-github-action@v2.0.0
         with:
           method: chat.postMessage
           token: ${{secrets.SUBMITTER_HELPDESK_SLACK_BOT_TOKEN}}
-          payload: |
-            channel: ${{secrets.TEST_CHANNEL_ID}}
-            text: ${{env.slack_message}}
+          payload-file-path: slack_payload.json
       - name: Debug Output
         run: |
           echo "Latest tag: ${{ env.tag_new }}"
-          echo "Slack message: ${{ env.slack_message }}"
           ls -lah
           cat diff.txt
+          cat slack_payload.json
           
