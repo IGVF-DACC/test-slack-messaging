@@ -20,7 +20,7 @@ jobs:
           echo "tag_new=$TAG_NEW" >> $GITHUB_ENV
       - name: Generate git diff
         run: |
-          git diff ${{env.tag_old}} ${{env.tag_new}} changelogs/* | grep -v ^--- | grep -E "^[\+|#| #|-]"> diff.txt
+          git diff --unified=0 ${{env.tag_old}} ${{env.tag_new}} changelogs/* | grep -v ^--- | grep -E "^[\+|#| #|-]"> diff.txt
       - name: Prepare the Slack message
         run: |
           python generate_payload.py --diff-file diff.txt --output-file slack_payload.json --tag-old ${{env.tag_old}} --tag-new ${{env.tag_new}} --channel-id ${{secrets.TEST_CHANNEL_ID}}
