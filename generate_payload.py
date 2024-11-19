@@ -5,8 +5,11 @@ def generate_slack_payload(diff_file, output_file, tag_old, tag_new, channel_id)
     try:
         # Read the preformatted diff from the file
         with open(diff_file, 'r') as file:
-            diff_content = file.read()
-
+            diff_content = ''
+            for line in file:
+                if line.startswith('*'):
+                    continue
+                diff_content += line
         # Truncate diff if it's too long for Slack
         max_chars = 39000  # Slack message limit is ~40,000 characters
         if len(diff_content) > max_chars:
