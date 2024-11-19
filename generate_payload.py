@@ -4,7 +4,6 @@ import re
 
 def generate_slack_payload(diff_file, output_file, tag_old, tag_new, channel_id):
     try:
-        # Read the preformatted diff from the file
         with open(diff_file, 'r') as file:
             diff_content = ''
             for line in file:
@@ -19,8 +18,6 @@ def generate_slack_payload(diff_file, output_file, tag_old, tag_new, channel_id)
             "channel": channel_id,
             "text": f"Changes from {tag_old} to {tag_new}:\n```{diff_content}```"
         }
-
-        # Write the payload to a JSON file
         with open(output_file, 'w') as json_file:
             json.dump(payload, json_file, indent=2)
 
