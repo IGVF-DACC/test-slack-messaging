@@ -3,6 +3,7 @@
 ### Minor changes since schema version 10
 
 * Rename calculated property `input_file_set_for` to `input_for`.
+* Changes for the version v4 release.
 
 ### Schema version 10
 

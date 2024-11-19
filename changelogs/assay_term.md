@@ -6,6 +6,7 @@
 * Extend `preferred_assay_titles` enum list to include `ONT dRNA`.
 * Extend `preferred_assay_titles` enum list to include `ONT Fiber-seq`.
 * Extend `preferred_assay_titles` enum list to include `ONT direct WGS`.
+* Changes for the version v4 release.
 
 ### Schema version 8
 

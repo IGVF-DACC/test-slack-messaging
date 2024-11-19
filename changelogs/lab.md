@@ -4,6 +4,7 @@
 
 * Update calculation of `summary`.
 * Update `aliases` regex to add `buenrostro-bernstein` as a namespace.
+* Changes for the version v4 release.
 
 ### Schema version 3
 
