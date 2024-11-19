@@ -23,7 +23,8 @@ jobs:
           git diff ${{env.tag_old}} ${{env.tag_new}} changelogs/* | grep -v ^--- | grep -E "^[\+|#| #|-]"> diff.txt
       - name: Prepare the Slack message
         run: |
-          echo "slack_message=Latest tag ${{env.tag_new}}. Attached is the diff between ${{env.tag_old}} and ${{env.tag_new}}."  >> $GITHUB_ENV
+          DIFF_CONTENT=$(cat diff.txt | head -n 100 | sed 's/$/\\n/' | tr -d '\n')
+          echo "slack_message=Changes from ${{ env.tag_old }} to ${{ env.tag_new }}:\\n\`\`\`$DIFF_CONTENT\`\`\`" >> $GITHUB_ENV
       - name: Post a message to Slack
         uses: slackapi/slack-github-action@v2.0.0
         with:
